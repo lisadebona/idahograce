@@ -4,15 +4,8 @@ $currentURL = get_permalink();
 $no_header = ( isset($_GET['plain']) && $_GET['plain'] ) ? true : false;
 $pid = ( isset($_GET['pid']) && $_GET['pid'] ) ? $_GET['pid'] : '';
 $dateNow = date('mdY');
-//if( isset($_COOKIE['sermonsaveddate']) ) {
-	// $savedDate = ( isset($_COOKIE['sermonsaveddate']) && $_COOKIE['sermonsaveddate']) ? $_COOKIE['sermonsaveddate'] : '';
-	// $sermonInputsCount = (isset($_COOKIE['sermonInputsCount']) && $_COOKIE['sermonInputsCount']) ? $_COOKIE['sermonInputsCount'] : '';
-	// if($sermonInputsCount>0) {
-	// 	for($i=1; $i<=$sermonInputsCount; $i++) {
 
-	// 	}
-	// }
-	//print_r( $_COOKIE );
+//if( isset($_COOKIE['sermonsaveddate']) ) {
 //}
 
 if($no_header) { 
@@ -22,14 +15,13 @@ if($no_header) {
 		$inputField = '<span>{%userAnswer%}</span>';
 		$inputFieldMultiple = '<span>{%userAnswerMultiple%}</span>';
 		$content = str_replace('{%blank_field%}',$inputField,$content);
-		$content = str_replace('{%blank_field_multiple%}',$inputFieldMultiple,$content);
+		//$content = str_replace('{%blank_field_multiple%}',$inputFieldMultiple,$content);
+		$content = str_replace('{%additional_notes%}',$inputFieldMultiple,$content);
 		echo $content;
 	}
 
 
 }
-
-
 
 require_once get_template_directory() . "/dompdf/autoload.inc.php";
 use Dompdf\Dompdf;
@@ -39,6 +31,7 @@ $dompdf = new DOMPDF();
 if( isset($_POST['action_type']) && $_POST['action_type']=='download' )  {
 	$post_id = $_POST['id'];
 	$html = download_sermon_notes($_POST);
+	//echo $html;
 	if($html) {
 		$post = get_post($post_id);
 		if($post) {
@@ -58,13 +51,13 @@ if( ( isset($_POST['action_type']) && $_POST['action_type']=='email' ) && isset(
 	if($sent) {
 		$postTitle = get_the_title($post_id);
 		$postTitle = urlencode($postTitle);
-		// wp_redirect($currentURL . '?sent=1&title='.$postTitle.'&email='.$user_email);
+		wp_redirect($currentURL . '?sent=1&title='.$postTitle.'&id='.$post_id.'&email='.$user_email);
 		// exit;
-		$is_email_sent = true;
+		//$is_email_sent = true;
 	}
 }
 
-
+$is_email_sent = ( isset($_GET['sent']) && $_GET['sent']==1 ) ? true : false;
 $custom_logo_id = get_theme_mod( 'custom_logo' );
 $logoImg = wp_get_attachment_image_src($custom_logo_id,'large');
 $siteURL = get_site_url();
@@ -151,9 +144,10 @@ get_header();  ?>
 				//$actual_content = $content;
 				//$content = get_the_content();
 				$inputField = '<span><input type="text" class="notes-input" name="answer[]"></span>';
-				$textarea = '<span><textarea class="notes-input" name="answer_multiple[]"></textarea></span>';
+				$textarea = '<div class="addNotesDiv"><a class="addtlNotesBtn"><i class="fas fa-edit"></i> <span>Add Notes</span></a><textarea class="notes-input" name="answer_multiple[]"></textarea></div>';
 				$content = str_replace('{%blank_field%}',$inputField,$content);
-				$content = str_replace('{%blank_field_multiple%}',$textarea,$content);
+				//$content = str_replace('{%blank_field_multiple%}',$textarea,$content);
+				$content = str_replace('{%additional_notes%}',$textarea,$content);
 
 				$sermon_id = get_the_ID();
 				$sermon_date = get_field("sermon_date");

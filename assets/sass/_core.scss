@@ -57,6 +57,10 @@ a,input,textarea,button {
 		z-index: 100000; /* Above WP toolbar. */
 	}
 }
+.site {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
 .wrapper {
 	max-width: 1200px;
 	width: 100%;
@@ -306,16 +310,18 @@ a,input,textarea,button {
 			display: none;
 		}
 		span.mobileField {
-			display: inline-block!important;
+			display: inline-block;
 			width: 65px;
 			height: 22px;
-			border: 1px solid #000;
+			border-bottom: 1px solid #000;
 			position: relative;
     		bottom: -3px;
     		&.auto-width {
+    			display: inline!important;
     			width: auto!important;
 				padding: 0 3px;
 				line-height: 1.2;
+				overflow-wrap: break-word;
     		}
 		}
 	}
@@ -450,14 +456,44 @@ a,input,textarea,button {
 	}
 }
 
+.addNotesDiv {
+	margin-top: 20px;
+	margin-bottom: 35px;
+	textarea {
+		display: none;
+		margin-top: 10px;
+	}
+	&.open {
+		textarea {
+			display: block;
+		}
+	}
+}
+.addtlNotesBtn {
+	display: inline-block;
+	text-decoration: none;
+	cursor: pointer;
+	background: #e4812d;
+	color: #FFF!important;
+	padding: 5px 15px;
+	border-radius: 4px;
+    font-size: 14px;
+	&:hover {
+		background: #f19b53;
+	}
+}
+
 #emailNotesFrm.modal {
 	.modal-dialog {
-		position: fixed;
-		bottom: 10%;
-		left: 50%;
-		transform: translateX(-50%);
+		// position: fixed;
+		// bottom: 10vh;
+		// left: 50%;
+		// transform: translateX(-50%);
+		top: 50%;
+		transform: translateY(-50%);
 		max-width: 500px;
 		width: 90%;
+		margin: 0 auto;
 	}
 }
 

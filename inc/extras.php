@@ -234,151 +234,11 @@ function note_form_markup() {
 }
 
 
-function add_note_button_func( $atts ){
-    return "{%AddNoteButton%}";
-}
-add_shortcode( 'add_note_button', 'add_note_button_func' );
+// function add_note_button_func( $atts ){
+//     return "{%AddNoteButton%}";
+// }
+// add_shortcode( 'add_note_button', 'add_note_button_func' );
 
-
-function download_sermon_notes2($post_id,$notes=null) {
-    $post = get_post($post_id);
-    $fileName = '';
-    $siteURL = get_site_url();
-    $custom_logo_id = get_theme_mod( 'custom_logo' );
-    $logoImg = wp_get_attachment_image_src($custom_logo_id,'large');
-    $siteName = get_bloginfo("name");
-    if($post) {
-        $title = $post->post_title;
-        $content = $post->post_content;
-        $sermon_date = get_field("sermon_date",$post_id);
-        $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}</style>';
-        $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.png" style="width:60px;height:auto"/></div>';
-        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
-        $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
-        $text .= '<h2 style="font-size:25px;">'.$title.'</h2>';
-
-        $fileName = sanitize_title($title) . '.pdf';
-        if($notes) {
-
-            $parts = explode("[add_note_button]",$content);
-
-            $note_count = count($notes);
-            if($parts) {
-                $i=1; foreach($parts as $k=>$str) {
-                    $str2 = preg_replace('/\s+/', '', $str);
-                    $noteVal = '';
-
-                    if( $str2 ) {
-                        $string = ( isset($notes[$k]) && $notes[$k] ) ? $notes[$k] : '';
-                        $note_txt_str = ($string) ? preg_replace('/\s+/', '', $string) : '';
-                        if($i<=$note_count) {
-                            if($note_txt_str) {
-                                $note_txt = $notes[$k];
-                            } else {
-                                $note_txt = '';
-                            }
-                        } else {
-                            $note_txt =  '';
-                        }
-
-                        if($note_txt) {
-                            $noteVal = '<div class="noteVal" style="border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px">' . $note_txt . '</div>';
-                        }
-
-                        $text .= $str . $noteVal;
-                    }
-                    
-                    $i++;
-                }
-            }
-        } else {
-            $text = str_replace('[add_note_button]','<div class="noteVal noInfo" style="border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px"><i class="noNote">[No notes added]</i></div>',$content);
-        }
-        apply_filters('the_content', $text);
-        ob_start();
-        echo $text;
-        $output = ob_get_contents();
-        ob_end_clean();
-        return $output;
-    }
-}
-
-
-function email_sermon_notes2($params) {
-    $post_id = ( isset($params['id']) && $params['id'] ) ? $params['id'] : 0;
-    $notes = ( isset($params['note']) && $params['note'] ) ? $params['note'] : '';
-    $user_email = ( isset($params['user_email']) && $params['user_email'] ) ? $params['user_email'] : '';
-    $post = get_post($post_id);
-    $fileName = '';
-    $siteURL = get_site_url();
-    $logo = get_bloginfo("template_url") . "/images/logo.png";
-    $siteName = get_bloginfo("name");
-    if($post && $user_email) {
-        $title = $post->post_title;
-        $content = $post->post_content;
-        $sermon_date = get_field("sermon_date",$post_id);
-        $text = '<table style="border:none;border-collapse:collapse;width:100%;"><tbody><tr><td style="background-color:#FBAE6D;padding:20px;">';
-        $text  .= '<table style="border:none;border-collapse: collapse;background-color:#FFFFFF;font-family:Arial,Helvetica;font-size:16px;line-height:1.3;max-width:800px;width:100%;margin:20px auto"><tbody><tr><td style="padding:20px;background:#fff;">';
-        //$text .= '<p style="text-align:center;margin:0 0 10px"><img src="'.$logo.'" style="width:60px;height:auto"></p>';
-        $text .= '<p style="text-align:center;margin:0 0 10px"><img src="https://chop-v3-media.s3.amazonaws.com/medias/images/000/090/217/original/GRACE-FULL-HORIZONTAL-FULL_COLOR.png?1545401554" style="width:165px;height:auto"></p>';
-        $text .= '<h1 align="center" style="font-size:20px;line-height: 1.2;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
-        $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
-        $text .= '<h2 style="font-size:25px;color:#f79e54">'.$title.'</h2>';
-        $fileName = sanitize_title($title) . '.pdf';
-        if($notes) {
-
-            $parts = explode("[add_note_button]",$content);
-
-            $note_count = count($notes);
-            if($parts) {
-                $i=1; foreach($parts as $k=>$str) {
-                    $str2 = preg_replace('/\s+/', '', $str);
-                    $noteVal = '';
-
-                    if( $str2 ) {
-                        $string = ( isset($notes[$k]) && $notes[$k] ) ? $notes[$k] : '';
-                        $note_txt_str = ($string) ? preg_replace('/\s+/', '', $string) : '';
-                        if($i<=$note_count) {
-                            if($note_txt_str) {
-                                $note_txt = $notes[$k];
-                            } else {
-                                $note_txt = '';
-                            }
-                        } else {
-                            $note_txt =  '';
-                        }
-
-                        if($note_txt) {
-                            $noteVal = '<div class="noteVal" style="border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px">' . $note_txt . '</div>';
-                        }
-
-                        $text .= $str . $noteVal;
-                    }
-                    
-                    $i++;
-                }
-            }
-        } else {
-            $text .= str_replace('[add_note_button]','',$content);
-        }
-        $text  .= '</td></tr></tbody></table></td></tr></tbody></table>';
-        apply_filters('the_content', $text);
-
-        ob_start();
-        echo $text;
-        $output = ob_get_contents();
-        ob_end_clean();
-
-        $subject = $siteName . 'Sermon Guide - ' . $title;
-        $to = $user_email;
-        $fromEmail = 'Idaho Grace <noreply@idahograce.com>';
-        add_filter( 'wp_mail_content_type', create_function( '', 'return "text/html";' ) );
-        $is_sent = wp_mail( $to,$subject,$text);
-        return ($is_sent) ? true : false;
-
-        //return $output;
-    }
-}
 
 
 add_action( 'init', 'extractdata' );
@@ -470,37 +330,17 @@ function download_sermon_notes($vars) {
     $siteURL = get_site_url();
     $siteName = get_bloginfo("name");
     if($post) {
-        // $pageContent = file_get_contents(get_site_url() . '?noheader=1');
-        // ob_start();
-        // echo $pageContent;
-        // $content = ob_get_contents();
-        // ob_end_clean();
-
-        // $title = $post->post_title;
-        // $content = $post->post_content;
-        // apply_filters('the_content', $content);
-        // ob_start();
-        // echo $content;
-        // $content = ob_get_contents();
-        // ob_end_clean();
 
         $content = get_sermon_content($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}</style>';
-        $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.png" style="width:180px;height:auto"/></div>';
+        $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.jpg" style="width:100px;height:auto"/></div>';
         $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
         $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
         $text .= '<h2 style="font-size:25px;">'.$title.'</h2>';
 
         $fileName = sanitize_title($title) . '.pdf';
         if($notes) {
-
-            // $textareaFields = '';
-            // if (strpos($content, '{%userAnswerMultiple%}') !== false) {
-            //     $textareaFields = substr_count($content,"{%userAnswerMultiple%}");
-            // }
-
-            
 
             $parts = explode('{%userAnswer%}',$content);
 
@@ -604,7 +444,7 @@ function email_sermon_notes($vars) {
         $text = '<table style="border:none;border-collapse:collapse;width:100%;"><tbody><tr><td style="background-color:#FBAE6D;padding:20px;">';
         $text  .= '<table style="border:none;border-collapse: collapse;background-color:#FFFFFF;font-family:Arial,Helvetica;font-size:16px;line-height:1.3;max-width:800px;width:100%;margin:20px auto"><tbody><tr><td style="padding:20px;background:#fff;">';
         //$text .= '<p style="text-align:center;margin:0 0 10px"><img src="'.$logo.'" style="width:60px;height:auto"></p>';
-        $text .= '<p style="text-align:center;margin:0 0 10px"><a href="https://www.idahograce.com/" target="_blank"><img src="https://chop-v3-media.s3.amazonaws.com/medias/images/000/090/217/original/GRACE-FULL-HORIZONTAL-FULL_COLOR.png?1545401554" style="width:165px;height:auto"></a></p>';
+        $text .= '<p style="text-align:center;margin:0 0 10px"><a href="https://www.idahograce.com/" target="_blank"><img src="https://idahogracesermon.com/idaho-grace.jpg" style="width:100px;height:auto"></a></p>';
         $text .= '<h1 align="center" style="font-size:20px;line-height: 1.2;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
         $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
         $text .= '<h2 style="font-size:25px;color:#f79e54">'.$title.'</h2>';
@@ -689,53 +529,13 @@ function email_sermon_notes($vars) {
         } 
 
         $email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
-
-        // if( isset($notesTextarea) ) {
-
-        //     $textareaFields = explode('{%userAnswerMultiple%}',$text);
-        //     $note_count = count($notesTextarea);
-
-        //     $text2 = '';
-        //     if($textareaFields) {
-        //         $i=1; foreach($textareaFields as $k=>$str) {
-        //             $str2 = preg_replace('/\s+/','', $str);
-        //             $noteVal = '';
-        //             if( $str2 ) {
-        //                 $string = ( isset($notesTextarea[$k]) && $notesTextarea[$k] ) ? $notesTextarea[$k] : '';
-        //                 $note_txt_str = ($string) ? preg_replace('/\s+/', '', $string) : '';
-
-        //                 if($note_txt_str) {
-        //                     $note_txt = trim($notesTextarea[$k]);
-        //                 } else {
-        //                     $note_txt = '';
-        //                 }
-
-        //                 if($note_txt) {
-        //                     $noteVal = '<span class="multipleInput" style="display:block;border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px">' . nl2br($note_txt) . '</span>';
-        //                 }
-
-        //                 $text2 .= $str . $noteVal;
-        //             }
-        //             $i++;
-        //         }
-        //     } else {
-        //         $text2 .= str_replace('[blank_field_here]','______________________',$content);
-        //     }
-           
-        //     $email_body = $text2;
-
-        // } 
-
-        $email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
-
+        //$email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
 
         $subject = $siteName . 'Sermon Guide - ' . $title;
         $to = $user_email;
-        $fromEmail = 'Idaho Grace <noreply@idahograce.com>';
         add_filter( 'wp_mail_content_type', create_function( '', 'return "text/html";' ) );
         $is_sent = wp_mail( $to,$subject,$email_body);
         return ($is_sent) ? true : false;
-        //return $email_body;
 
     }
 }
@@ -762,5 +562,20 @@ function convert_to_text_field($atts) {
     return $output;
 }
 add_shortcode('blank_field_here','convert_to_text_field');
+
+
+function convert_additional_notes($atts) {
+    // $a = shortcode_atts( array(
+    //     'type' => 'single',
+    // ), $atts );
+    // $type = $a['type'];
+    // $output = '{%blank_field%}';
+    // if($type=='multiple') {
+    //     $output = '{%blank_field_multiple%}';
+    // } 
+    return '{%additional_notes%}';
+}
+add_shortcode('additional_notes_here','convert_additional_notes');
+
 
 

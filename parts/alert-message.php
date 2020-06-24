@@ -1,4 +1,4 @@
-<?php //if ( isset($_GET['sent']) && $_GET['sent'] && isset($_GET['title']) && isset($_GET['email']) ) { ?>
+<?php if ( isset($_GET['sent']) && $_GET['sent'] && isset($_GET['title']) && isset($_GET['id']) && isset($_GET['email']) ) { ?>
 	<div class="modal fade show" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block;margin-top:8%">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -9,8 +9,8 @@
 	        </button> -->
 	      </div>
 	      <?php  
-	      	$id = ( isset($_POST['id']) && $_POST['id'] ) ? $_POST['id'] : '';
-	      	$user_email =( isset($_POST['user_email']) && $_POST['user_email'] ) ? $_POST['user_email'] : '';
+	      	$id = ( isset($_GET['id']) && $_GET['id'] ) ? $_GET['id'] : '';
+	      	$user_email =( isset($_GET['email']) && $_GET['email'] ) ? $_GET['email'] : '';
 	      	$post = ($id) ? get_post($id) : '';
 	      	$post_title = ( isset($post->post_title) ) ? $post->post_title : "";
 	      ?>
@@ -25,4 +25,4 @@
 	  </div>
 	</div>
 	<div id="messageBg" class="modal-backdrop fade show"></div>
-<?php //} ?>
+<?php } ?>

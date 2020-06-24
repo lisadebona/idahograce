@@ -12,9 +12,10 @@
 <script>
 var params={};location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){params[k]=v});
 var currentURL = '<?php echo get_permalink(); ?>';
+var siteURL = '<?php echo get_site_url(); ?>';
 var d = new Date();
 if(typeof params.sent!=='undefined') {
-	history.replaceState('', document.title,currentURL);
+	history.replaceState('', document.title,siteURL);
 }
 </script>
 <?php wp_head(); ?>

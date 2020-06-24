@@ -216,6 +216,23 @@ jQuery(document).ready(function ($) {
 
 	}
 
+	/* Additional Notes */
+	if( $(".addNotesDiv").length > 0 ) {
+		$(".addtlNotesBtn").on("click",function(e){
+			e.preventDefault();
+			var btn = $(this);
+			var txt = $(this).find('span').text();
+			var parent = $(this).parents(".addNotesDiv");
+			parent.toggleClass("open");
+			if(txt=='Add Notes') {
+				btn.find('span').text('Hide Notes')
+			} else {
+				btn.find('span').text('Add Notes');
+			}
+			$(this).next("textarea.notes-input").addClass("show");
+		});
+	}
+
 
 	/* Input fields on mobile version */
 	input_fields_mobile_version();
@@ -230,9 +247,9 @@ jQuery(document).ready(function ($) {
 				var cookieField = id + "_" + dateStr;
 				var cookiesVal = ( typeof Cookies.get(cookieField)!='undefined' ) ? Cookies.get(cookieField):'';
 				if(cookiesVal) {
-					spanMobile = '<span data-rel="#'+id+'" class="mobileField auto-width" style="display:inline-block">'+cookiesVal+'</span>';
+					spanMobile = '<span data-rel="#'+id+'" class="mobileField auto-width">'+cookiesVal+'</span>';
 				} else {
-					spanMobile = '<span data-rel="#'+id+'" class="mobileField" style="display:none">&nbsp;</span>';
+					spanMobile = '<span data-rel="#'+id+'" class="mobileField" class="hide">&nbsp;</span>';
 				}
 				$(spanMobile).insertAfter(target);
 			});
@@ -281,9 +298,14 @@ jQuery(document).ready(function ($) {
 				var inputVal = (str_clean) ? str : '';
 				if( $('span.mobileField[data-rel="'+inputFieldSelector+'"]').length > 0 ) {
 					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').text(inputVal);
+					$("input"+inputFieldSelector).val(inputVal);
 					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').addClass("auto-width");
+					if(str_clean=='') {
+						$('span.mobileField[data-rel="'+inputFieldSelector+'"]').removeClass("auto-width");
+					}
 				}
-				$("input#sermonAnswerInput1").val(inputVal);
+				
+
 			});
 
 		}
