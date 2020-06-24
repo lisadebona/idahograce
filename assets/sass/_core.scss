@@ -1,0 +1,463 @@
+ div,h1,h2,h3,h4,h5,h6,p,li,a,span,strong {
+	overflow-wrap: normal;
+    word-wrap: normal;
+    -ms-word-break: normal;
+    word-break: normal;
+    word-break: normal;
+    -ms-hyphens: none;
+    -moz-hyphens: none;
+    -webkit-hyphens: none;
+    hyphens: none;
+    page-break-inside: avoid;
+}
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+pre {
+	font-family: $font_pre;
+	font-size: 13px;
+	line-height: 1.3;
+}
+a,input,textarea,button {
+	transition: all ease .3s;
+}
+.cf:before, .cf:after {
+    content: " "; 
+    display: table; 
+}
+.cf:after { clear: both; }
+.cf { *zoom: 1; }
+.text-center {text-align:center;}
+
+/* Text meant only for screen readers. */
+.sr {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	&:focus {
+		background-color: #333;
+		border-radius: 3px;
+		box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+		clip: auto !important;
+		color: #FFF;
+		display: block;
+		@include font-size(0.875);
+		font-weight: bold;
+		height: auto;
+		left: 5px;
+		line-height: normal;
+		padding: 15px 23px 14px;
+		text-decoration: none;
+		top: 5px;
+		width: auto;
+		z-index: 100000; /* Above WP toolbar. */
+	}
+}
+.wrapper {
+	max-width: 1200px;
+	width: 100%;
+	margin: 0 auto;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.menu-toggle {
+	display: none;
+}
+.header-image {
+	width: 100%;
+	height: 230px;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: $primary;
+	@include tab {
+		height: 400px;
+	}
+	@include mid {
+		height: 600px;
+	}
+	&:before {
+		content:"";
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: rgba(0,0,0,.35);
+	}
+}
+.header-inner {
+	width: 100%;
+	height: 100%;
+	@include flexgroup-center();
+	text-align: center;
+	position: relative;
+	z-index: 10;
+	transform: scale(0.9);
+	@include tab {
+		transform: none;
+	}
+	.wrap {
+		width: 100%;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.logo {
+		display: inline-block;
+		width: 85px;
+		margin-bottom: 30px;
+		@include tab {
+			width: 150px;
+		}
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+	.title1 {
+		margin: 0 0;
+		font-size: 2em;
+		font-weight: 500;
+		line-height: 1.3;
+		color: #FFF;
+		@include tab {
+			font-size: 3em;
+		}
+	}
+	.title2 {
+		margin: 0 0;
+		font-size: 1em;
+		font-weight: 500;
+		line-height: 1.3;
+		color: #FFF;
+		@include tab {
+			font-size:1.2em;
+		}
+	}
+}
+
+.btn-primary {
+	color: #FFF!important;
+    background-color: #eea568;
+    border-color: #eea568;
+    transition: all ease .3s;
+    &:focus,
+    &:hover {
+    	background-color: #e08539;
+    	border-color: #e08539;
+    }
+}
+.sermon-content-area {
+	.site-main {
+		padding-bottom: 100px;
+	}
+}
+.sermon-bottom-buttons {
+	width: 100%;
+	float: left;
+	text-align: center;
+	margin-bottom: 100px;
+	margin-top: 10px;
+	position: relative;
+	@include tab {
+		margin-top: 30px;
+		margin-bottom: 40px;
+		text-align: left;
+	}
+	.btn {
+		display: inline-block;
+		margin-right: 15px;
+		margin-bottom: 10px;
+		@media screen and (max-width: $midwidth) {
+			display: block;
+			max-width: 250px;
+			width: 100%;
+			margin: 12px auto;
+			&#resetBtn {
+				position: absolute;
+				bottom: -50px;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+		}
+	}
+}
+.sermon-posts {
+	width: 100%;
+	float: left;
+	padding-top: 50px;
+	padding-bottom: 0;
+	.sermonTitle {
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 1.2;
+		margin: 0 0 20px;
+		color: $primary;
+	}
+	.pageTitle {
+		color: $primary;
+		font-size: 2em;
+		font-weight: 500;
+		line-height: 1.2;
+		margin: 0 0;
+	}
+	.sermonDate {
+		font-size: 17px;
+		font-weight: bold;
+	}
+	.pageheader {
+		margin-bottom: 50px;
+	}
+	.sermon-note-wrap {
+		position: relative;
+		margin-bottom: 40px;
+	}
+	.noteWrap {
+		display: none;
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+		margin-bottom: 10px;
+		&.show {
+			display: block;
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+	}
+	.open {
+		.noteWrap {
+			display: block;
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+	}
+	.sermon-button {
+		margin-bottom: 10px;
+	}
+	.sermonBtn {
+		color: #d27526;
+		display: inline-block;
+		text-decoration: none;
+		cursor: pointer;
+		border: 1px solid #d27526;
+		padding: 5px 15px;
+		border-radius: 4px;
+		font-size: 14px;
+		.fa-edit  {
+			display: inline-block;
+			position: relative;
+			left: -3px;
+		}
+		&:hover {
+			background: #d27526;
+			color: #FFF;
+		}
+	}
+	input[type="text"] {
+		height: 28px;
+		line-height: 28px;
+		border: 1px solid #333;
+		width: 250px;
+		border-radius: 0px;
+		margin:0 3px;
+		padding: 0 6px;
+	}
+
+
+	textarea.notes-input {
+		width: 100%;
+		height: 100px;
+		line-height: 1.2;
+		border-radius: 0;
+		padding: 5px 10px;
+	}
+	textarea.notes {
+		font-family: $font_main;
+		font-size: 20px;
+		line-height: 1.4;
+		color: #000;
+		width: 100%;
+		height: 200px;
+		padding: 10px;
+		outline: none;
+		border-radius: 5px;
+		border: 1px solid #333;
+		&:focus {
+			background-color: #fff;
+			border-color: $primary;
+			outline: 0;
+			box-shadow: 0 0 0 0.2rem rgba($primary,.25);
+		}
+	}
+	span.mobileField {
+		display: none;
+	}
+	@media screen and (max-width:900px) {
+		input.notes-input {
+			width: 60px;
+			display: none;
+		}
+		span.mobileField {
+			display: inline-block!important;
+			width: 65px;
+			height: 22px;
+			border: 1px solid #000;
+			position: relative;
+    		bottom: -3px;
+    		&.auto-width {
+    			width: auto!important;
+				padding: 0 3px;
+				line-height: 1.2;
+    		}
+		}
+	}
+}
+
+.btn-primary.gray {
+	background-color: #757575;
+	border-color: #757575;
+	&:hover {
+		background-color: #565656;
+		border-color: #565656;
+	}
+}
+
+// .gbcBtn {
+// 	display: inline-block;
+// 	text-decoration: none;
+// 	cursor: pointer;
+// 	background: shade($primary,5%);
+// 	color: #FFF!important;
+// 	font-size: 18px;
+// 	padding: 10px 20px;
+// 	border-radius: 5px;
+// 	margin-right: 15px;
+// 	&:hover {
+// 		background: tint($primary,25%);
+// 	}
+// }
+
+.emailNoteField {
+	// max-width: 500px;
+	// background: #ececec;
+	// padding: 20px;
+	// margin-top: 15px;
+	label {
+		display: block;
+		margin-bottom: 6px;
+	}
+	input.form-control {
+		width: 100%;
+		height: 45px;
+		line-height: 45px;
+		font-size: 20px;
+		border: 1px solid #333;
+		padding: 5px 10px;
+	}
+	#emailNotes {
+		border: none;
+		border-radius: 5px;
+		margin-top: 12px;
+	}
+	#respond {
+		.msg {
+			color: #e20d0d;
+			font-size: 14px;
+			padding: 5px;
+			margin: 2px 0 0;
+		}
+	}
+}
+
+#messageModal {
+	.topic {
+		font-size: 16px;
+		line-height: 1.2;
+		font-weight: bold;
+	}
+}
+
+.error-404 {
+	max-width: 500px;
+	width: 100%;
+	padding: 30px;
+	margin: 10% auto 0;
+	text-align: center;
+}
+
+#modalInputField {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	background: rgba(0,0,0,.75);
+	z-index: 9999;
+	display: none;
+	#modalInputWrap {
+		width: 100%;
+		background: #FFF;
+		padding: 25px 15px;
+		border-radius: 6px;
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+	}
+	#modalInputTxt {
+		margin-bottom: 15px;
+		input {
+			width: 100%;
+			height: 40px;
+			line-height: 40px;
+			font-size: 18px;
+			padding: 5px;
+			color: #000;
+		}
+	}
+	#modalInputBtn {
+		a {
+			display: inline-block;
+			padding: 5px 10px;
+			background: $primary;
+			color: #FFF;
+			border-radius: 5px;
+			margin-right: 20px;
+			&#saveInputBtn {
+				padding-left: 30px;
+				padding-right: 30px;
+			}
+			&#cancelInputBtn {
+				background: $secondary;
+			}
+		}
+	}
+	&.open {
+		@include flexgroup-center();
+		#modalInputWrap {
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+	}
+}
+
+#emailNotesFrm.modal {
+	.modal-dialog {
+		position: fixed;
+		bottom: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		max-width: 500px;
+		width: 90%;
+	}
+}
+
