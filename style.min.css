@@ -1748,11 +1748,11 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 .sermon-content-area .site-main{padding-bottom:100px}
 .sermon-bottom-buttons{width:100%;float:left;text-align:center;margin-bottom:100px;margin-top:10px;position:relative}
 @media(min-width:600px){.sermon-bottom-buttons{margin-top:30px;margin-bottom:60px;text-align:left}
-}.sermon-bottom-buttons .btn{display:inline-block;margin-right:15px;margin-bottom:10px;background:#e4812d;border:1px solid #e4812d;font-size:18px;padding:6px 18px;max-width:350px}
+}.sermon-bottom-buttons .btn{display:inline-block;margin-right:15px;margin-bottom:10px;background:#e4812d;border:1px solid #e4812d;font-size:18px;padding:6px 18px;max-width:350px;border-radius:5px;cursor:pointer}
 @media screen and (max-width:900px){.sermon-bottom-buttons .btn{display:block;max-width:260px;width:100%;margin:12px auto}
 .sermon-bottom-buttons .btn#resetBtn{position:absolute;bottom:-50px;left:50%;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}
 }.sermon-bottom-buttons .btn:hover{background:#f19b53;border-color:#f19b53}
-.sermon-posts{width:100%;float:left;padding-top:60px;padding-bottom:0}
+.sermon-posts{width:100%;float:left;padding-top:60px;padding-bottom:0;position:relative}
 .sermon-posts .sermonTitle{font-size:40px;font-weight:500;line-height:1.2;margin:0 0 20px;color:#eea568}
 .sermon-posts .pageTitle{color:#eea568;font-size:2em;font-weight:600;line-height:1.2;margin:0}
 .sermon-posts .sermonDate{font-size:18px;font-weight:bold}
@@ -1773,7 +1773,9 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 @media screen and (max-width:900px){.sermon-posts input.notes-input{width:60px;display:none}
 .sermon-posts span.mobileField{display:inline-block;width:65px;height:22px;border-bottom:1px solid #000;position:relative;bottom:-3px}
 .sermon-posts span.mobileField.auto-width{display:inline !important;width:auto !important;padding:0 3px;line-height:1.2;overflow-wrap:break-word}
-}.btn-primary.gray{background-color:#757575;border-color:#757575}
+}#sermonContainer .modal{z-index:-999}
+#sermonContainer .modal.show{z-index:9999}
+.btn-primary.gray{background-color:#757575;border-color:#757575}
 .btn-primary.gray:hover{background-color:#565656;border-color:#565656}
 .emailNoteField label{display:block;margin-bottom:6px}
 .emailNoteField input.form-control{width:100%;height:45px;line-height:45px;font-size:20px;border:1px solid #333;padding:5px 10px}

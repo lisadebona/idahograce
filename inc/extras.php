@@ -241,13 +241,13 @@ function note_form_markup() {
 
 
 
-add_action( 'init', 'extractdata' );
-function extractdata() {
-   wp_register_script( "extractdata", get_stylesheet_directory_uri() . '/assets/js/extract.js', array('jquery') );
-   wp_localize_script( 'extractdata', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
-   wp_enqueue_script( 'jquery' );
-   wp_enqueue_script( 'extractdata' );
-}
+// add_action( 'init', 'extractdata' );
+// function extractdata() {
+//    wp_register_script( "sermonjs", get_stylesheet_directory_uri() . '/assets/js/sermon.js', array('jquery') );
+//    wp_localize_script( 'sermonjs', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
+//    wp_enqueue_script( 'jquery' );
+//    wp_enqueue_script( 'sermonjs' );
+// }
 
 
 
@@ -255,64 +255,55 @@ add_action( 'wp_ajax_nopriv_extract_page_content', 'extract_page_content' );
 add_action( 'wp_ajax_extract_page_content', 'extract_page_content' );
 function extract_page_content() {
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-        $post_id =($_POST['postid']) ? $_POST['postid'] : '';
-        $notes =($_POST['notes']) ? $_POST['notes'] : '';
-        $post = get_post($post_id);
+        //$post_id =($_POST['postid']) ? $_POST['postid'] : '';
+        $type =($_POST['gettype']) ? $_POST['gettype'] : '';
+        $contenttype =($_POST['contenttype']) ? $_POST['contenttype'] : '';
         $content = '';
-        $path = wp_get_upload_dir();
-        $basedir = $path['basedir'];
-        $sermonsDIR = str_replace('uploads','',$basedir) . 'sermons/';
+        $markup = '';
+        $data = '';
 
+        $args = array(
+            'posts_per_page'=> 1,
+            'post_type'     => 'sermons',
+            'post_status'   => 'publish',
+            'meta_query' => array(
+               array(
+                   'key' => 'sermon_visibility',
+                   'value' => 'on',
+                   'compare' => '=',
+               )
+            )
+        );
+        $post = get_posts($args);
+
+        // // $post = get_post($post_id);
         if($post) {
-            $content = download_sermon_notes($post_id,$notes);
+            $obj = $post[0];
+            $post_id = $obj->ID;
+            $sermon_date = get_field("sermon_date",$post_id);
+            $obj->sermon_date = $sermon_date;
+            $obj->siteURL = get_site_url();
+            $content = $obj->post_content;
+            $inputField = '<span><input type="text" class="notes-input" name="answer[]"></span>';
+            $textarea = '<div class="addNotesDiv"><a class="addtlNotesBtn"><i class="fas fa-edit"></i> <span>Add Notes</span></a><textarea class="notes-input" name="answer_multiple[]"></textarea></div>';
+            $content = str_replace('[blank_field_here]',$inputField,$content);
+            $content = str_replace('[additional_notes_here]',$textarea,$content);
+            $obj->post_content = $content;
+            $obj->datetoday = date('mdY');
+            $data = $obj;
+            $pageURL = get_permalink($post_id) . '?gettype=' . $type;
+            if($contenttype=='form') {
+                $markup = '';
+            } else {
+                $markup = @file_get_contents($pageURL);
+            }
+            
         }
-        $response['result'] = $content;
+
+        $response['html'] = $markup;
+        $response['post'] = $data;
         echo json_encode($response);
 
-        // $objects = ($_POST['objects']) ? $_POST['objects'] : '';
-        // $post_type = ($_POST['posttype']) ? $_POST['posttype'] : '';
-        // $imagesUploaded = array();
-        // $file_uploads = '';
-        // $file_info = array();
-        // if($objects) {
-        //     foreach($objects as $obj) {
-        //         $title = $obj['title'];
-        //         $imageURL = $obj['image'];
-        //         $path = get_images_from_website($imageURL);
-        //         if($path) {
-        //             $imagesUploaded[] = $imageURL;
-        //             $file_uploads .= $imageURL.'<br>';
-        //             $name = basename($imageURL);
-        //             $filename = 'imports/' . $name;
-        //             $file_info[] = array(
-        //                         'title'=>'',
-        //                         'category'=>$title,
-        //                         'image_url'=>$filename,
-        //                         'filename'=>$name,
-        //                         'website'=>''
-        //                     );
-        //         }
-        //     }
-        // }
-
-        // if($file_info) {
-        //     $json = json_encode($file_info,JSON_PRETTY_PRINT);
-        //     $dir = wp_get_upload_dir();
-        //     $path = $dir['path'];
-        //     $parts = explode("uploads/",$path);
-        //     $file = $parts[0] . 'uploads/imports/data.json';
-        //     $myfile = fopen($file, "w") or die("Unable to open file!");
-        //     $txt = $json;
-        //     fwrite($myfile, $txt);
-        //     fclose($myfile);
-        // }
-        // $response['uploaded'] = ($imagesUploaded) ? $imagesUploaded : '';
-        // $message = '';
-        // if($file_uploads) {
-        //     $message = '<div class="alert alert-success">'.$file_uploads.'</div>';
-        // }
-        // $response['message'] = $message;
-        // echo json_encode($response);
     }
     else {
         header("Location: ".$_SERVER["HTTP_REFERER"]);
@@ -332,12 +323,13 @@ function download_sermon_notes($vars) {
     if($post) {
 
         $content = get_sermon_content($post_id);
+        $title = get_the_title($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}</style>';
         $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.jpg" style="width:100px;height:auto"/></div>';
-        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
-        $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
-        $text .= '<h2 style="font-size:25px;">'.$title.'</h2>';
+        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">'.$siteName.'<br>Sermon Guide</h1><hr>';
+        $text .= '<h2 style="font-size:25px;margin:25px 0 0;color:#e4812d">'.$title.'</h2>';
+        $text .= '<p style="font-size:16px;margin:0 0 30px"><strong>'.$sermon_date.'</strong></p>';
 
         $fileName = sanitize_title($title) . '.pdf';
         if($notes) {
@@ -400,7 +392,8 @@ function download_sermon_notes($vars) {
                                 $note_txt = trim($notesTextarea[$k]);
                                 $noteVal = '<span class="multipleInput" style="display:block;border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px">' . nl2br($note_txt) . '</span>';
                             } else {
-                                $noteVal = '<br>______________________';
+                                //$noteVal = '<br>______________________';
+                                $noteVal = '';
                             }
                         }
 
@@ -422,7 +415,7 @@ function download_sermon_notes($vars) {
 
 
 function email_sermon_notes($vars) {
-    $post_id = ( isset($vars['id']) && $vars['id'] ) ? $vars['id'] : 0;
+    $post_id = $vars['id'];
     $notes = ( isset($vars['answer']) && $vars['answer'] ) ? $vars['answer'] : '';
     $user_email = ( isset($vars['user_email']) && $vars['user_email'] ) ? $vars['user_email'] : '';
     $notesTextarea = ( isset($vars['answer_multiple']) ) ? $vars['answer_multiple'] : '';
@@ -445,9 +438,13 @@ function email_sermon_notes($vars) {
         $text  .= '<table style="border:none;border-collapse: collapse;background-color:#FFFFFF;font-family:Arial,Helvetica;font-size:16px;line-height:1.3;max-width:800px;width:100%;margin:20px auto"><tbody><tr><td style="padding:20px;background:#fff;">';
         //$text .= '<p style="text-align:center;margin:0 0 10px"><img src="'.$logo.'" style="width:60px;height:auto"></p>';
         $text .= '<p style="text-align:center;margin:0 0 10px"><a href="https://www.idahograce.com/" target="_blank"><img src="https://idahogracesermon.com/idaho-grace.jpg" style="width:100px;height:auto"></a></p>';
-        $text .= '<h1 align="center" style="font-size:20px;line-height: 1.2;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
-        $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
-        $text .= '<h2 style="font-size:25px;color:#f79e54">'.$title.'</h2>';
+        //$text .= '<h1 align="center" style="font-size:20px;line-height: 1.2;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
+        // $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
+        // $text .= '<h2 style="font-size:25px;color:#f79e54">'.$title.'</h2>';
+        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">'.$siteName.'<br>Sermon Guide</h1><hr>';
+        $text .= '<h2 style="font-size:25px;margin:25px 0 0;color:#e4812d">'.$title.'</h2>';
+        $text .= '<p style="font-size:16px;margin:0 0 30px"><strong>'.$sermon_date.'</strong></p>';
+
         $fileName = sanitize_title($title) . '.pdf';
         if($notes) {
 
@@ -529,8 +526,6 @@ function email_sermon_notes($vars) {
         } 
 
         $email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
-        //$email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
-
         $subject = $siteName . 'Sermon Guide - ' . $title;
         $to = $user_email;
         add_filter( 'wp_mail_content_type', create_function( '', 'return "text/html";' ) );
@@ -576,6 +571,7 @@ function convert_additional_notes($atts) {
     return '{%additional_notes%}';
 }
 add_shortcode('additional_notes_here','convert_additional_notes');
+
 
 
 

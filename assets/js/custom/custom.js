@@ -213,12 +213,22 @@ jQuery(document).ready(function ($) {
 		  	$("#sermonAnswerInput"+i).val(inputVal);
 		  	$("#notesForm #sermonAnswerInput"+i).val(inputVal);
 		}
+		if( $("textarea.notes-input").length > 0 ) {
+			$("textarea.notes-input").each(function(){
+				var parent = $(this).parents(".addNotesDiv");
+				var str = $(this).val().replace(/\s/g,'').trim();
+				if(str) {
+					parent.addClass("open");
+					$(this).addClass("show");
+				}
+			});
+		}
 
 	}
 
 	/* Additional Notes */
 	if( $(".addNotesDiv").length > 0 ) {
-		$(".addtlNotesBtn").on("click",function(e){
+		$(document).on("click",".addtlNotesBtn",function(e){
 			e.preventDefault();
 			var btn = $(this);
 			var txt = $(this).find('span').text();

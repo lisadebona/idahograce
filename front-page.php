@@ -44,6 +44,7 @@ if( isset($_POST['action_type']) && $_POST['action_type']=='download' )  {
 	}
 }
 
+
 if( ( isset($_POST['action_type']) && $_POST['action_type']=='email' ) && isset($_POST['user_email']) && $_POST['user_email'] )  {
 	$post_id = $_POST['id'];
 	$user_email = $_POST['user_email'];
@@ -56,6 +57,44 @@ if( ( isset($_POST['action_type']) && $_POST['action_type']=='email' ) && isset(
 		//$is_email_sent = true;
 	}
 }
+
+
+if( isset($_GET['action_type']) && $_GET['action_type']=='Download Notes' ) {
+	$no_header = true;
+    $post_id = (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : '';
+    $html = ($post_id) ? download_sermon_notes($_GET) : '';
+    if($html) {
+        $post = get_post($post_id);
+        $title = get_the_title($post_id);
+        $fileName = sanitize_title($title) . '.pdf';
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $dompdf->stream($fileName);
+    }
+}
+
+if( ( isset($_GET['getinfo']) && $_GET['getinfo']=='email' ) && isset($_GET['user_email']) && $_GET['user_email'] )  {
+	$post_id = $_GET['id'];
+	$user_email = $_GET['user_email'];
+	$sent = email_sermon_notes($_GET);
+	$emailSuccessMsg = '';
+	if($sent) {
+		$postTitle = get_the_title($post_id);
+		$postTitle = urlencode($postTitle);
+		//wp_redirect($currentURL . '?sent=1&title='.$postTitle.'&id='.$post_id.'&email='.$user_email);
+		// exit;
+		//$is_email_sent = true;
+		$emailSuccessMsg = 'Notes successfully sent to <i><strong>' . $user_email . '</strong></i>';
+	} else {
+		$emailSuccessMsg = 'Email Notes faield. Plese try again.';
+	}
+	$out['sent'] = $sent;
+	$out['message'] = $emailSuccessMsg;
+	echo json_encode($out);
+	$no_header = true;
+}
+
+
 
 $is_email_sent = ( isset($_GET['sent']) && $_GET['sent']==1 ) ? true : false;
 $custom_logo_id = get_theme_mod( 'custom_logo' );
@@ -159,6 +198,7 @@ get_header();  ?>
 					<?php } ?>
 				</div>
 				<div class="entry-content"><?php echo $content ?></div>
+				<div id="featuredPostId" data-id="<?php echo $sermon_id ?>"></div>
 				<!-- <div class="sermon-item">
 					<h3 class="sermonTitle"><?php //the_title(); ?></h2>
 					<div class="sermonText"><?php //echo $content; ?></div>
@@ -222,18 +262,5 @@ get_header();  ?>
 <div id="modalInputField"><div id="modalInputWrap"><div id="modalInputTxt"><input type="text" class="ansTxtbox"></div><div id="modalInputBtn"><a id="cancelInputBtn">Cancel</a><a id="saveInputBtn">Save</a></div></div></div>
 
 <?php 
-if( isset($_POST) ) { ?>
-	<script>
-		var sermonFields = '<?php echo json_encode($_POST); ?>';
-		jQuery(document).ready(function($){
-			var fields = $.parseJSON(sermonFields);
-			var answers = ( typeof fields.answer!='undefined' ) ? fields.answer : '';
-			$(answers).each(function(k,v){
-				$(".notes-input").eq(k).val(v);
-			});
-		})
-	</script>
-<?php }
-
 get_footer();
 }

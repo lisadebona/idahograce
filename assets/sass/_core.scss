@@ -188,6 +188,8 @@ a,input,textarea,button {
 		font-size: 18px;
 		padding: 6px 18px;
 		max-width: 350px;
+		border-radius: 5px;
+		cursor: pointer;
 		@media screen and (max-width: $midwidth) {
 			display: block;
 			max-width: 260px;
@@ -211,6 +213,8 @@ a,input,textarea,button {
 	float: left;
 	padding-top: 60px;
 	padding-bottom: 0;
+	position: relative;
+	// z-index: 1060;
 	.sermonTitle {
 		font-size: 40px;
 		font-weight: 500;
@@ -339,7 +343,14 @@ a,input,textarea,button {
 		}
 	}
 }
-
+#sermonContainer {
+	.modal {
+		z-index: -999;
+		&.show {
+			z-index: 9999;
+		}
+	}
+}
 .btn-primary.gray {
 	background-color: #757575;
 	border-color: #757575;
