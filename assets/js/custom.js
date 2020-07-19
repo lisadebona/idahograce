@@ -6,16 +6,26 @@
 
 jQuery(document).ready(function ($) {
 	
-	var swiper = new Swiper('#slideshow', {
-		effect: 'fade', /* "fade", "cube", "coverflow" or "flip" */
-		loop: true,
-		noSwiping: false,
-		simulateTouch : false,
-		speed: 1000,
-		autoplay: {
-			delay: 4000,
-		}
-    });
+	// var swiper = new Swiper('#slideshow', {
+	// 	effect: 'fade', /* "fade", "cube", "coverflow" or "flip" */
+	// 	loop: true,
+	// 	noSwiping: false,
+	// 	simulateTouch : false,
+	// 	speed: 1000,
+	// 	autoplay: {
+	// 		delay: 4000,
+	// 	}
+ //    });
+
+ 	/* Replace Edit Page Link on the WPADMIN BAR Front End */
+ 	if( $("#featuredPostId").length > 0 && $("#wpadminbar #wp-admin-bar-edit").length > 0 ) {
+ 		if( typeof $("#featuredPostId").attr("data-id")!="undefined" && $("#featuredPostId").attr("data-id")!=null ) {
+ 			var featPostId = $("#featuredPostId").attr("data-id");
+	 		var adminEdit = $("#wpadminbar #wp-admin-bar-edit a").attr("href");
+	 		var newAdminPostURL = siteURL + '/wp-admin/post.php?post='+featPostId+'&action=edit';
+	 		$("#wpadminbar #wp-admin-bar-edit a").attr("href",newAdminPostURL);
+ 		}
+ 	}
 
     /* Smooth Scroll */
     $('a[href*="#"]')
