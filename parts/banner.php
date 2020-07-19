@@ -6,7 +6,7 @@ $title2 = get_field("title2",$home_id);
 $custom_logo_id = get_theme_mod( 'custom_logo' );
 $logoImg = wp_get_attachment_image_src($custom_logo_id,'large');
 if ($header_image) { ?>
-<div class="header-image" style="background-image:url('<?php echo $header_image['url']?>')">
+<div class="header-image" style="background-image:url('<?php echo $header_image['url']?>');min-height:200px;">
 	<div class="header-inner">
 		<div class="wrap">
 			<?php if ($logoImg) { ?>
