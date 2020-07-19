@@ -102,7 +102,7 @@ jQuery(document).ready(function ($) {
 		var id = $(this).attr("id");
 		var index = $(this).attr("data-index");
 		var str = $(this).val().trim();
-		var str_clean = str.replace(/\s/g,'').trim();
+		var str_clean = str.replace(/\s+/g,'').trim();
 		var txtVal = (str_clean) ? str : '';
 		$(".notesContainer .notes-input").eq(index).val(txtVal);
 		var cookieField = id + "_" + dateStr;
@@ -124,7 +124,7 @@ jQuery(document).ready(function ($) {
 	$("input#emailTo").on('keyup focusout',function(e){
 		var index = $(this).attr("data-index");
 		var str = $(this).val();
-		var str_clean = str.replace(/\s/g,'').trim();
+		var str_clean = str.replace(/\s+/g,'').trim();
 		var txtVal = (str_clean) ? str : '';
 		$("input#userEmail").val(str_clean);
 	});
@@ -216,10 +216,11 @@ jQuery(document).ready(function ($) {
 		if( $("textarea.notes-input").length > 0 ) {
 			$("textarea.notes-input").each(function(){
 				var parent = $(this).parents(".addNotesDiv");
-				var str = $(this).val().replace(/\s/g,'').trim();
+				var str = $(this).val().replace(/\s+/g,'').trim();
 				if(str) {
 					parent.addClass("open");
 					$(this).addClass("show");
+					parent.find(".addtlNotesBtn span").text('Hide Notes');
 				}
 			});
 		}
@@ -303,8 +304,8 @@ jQuery(document).ready(function ($) {
 
 			$(document).on("keyup focusout","#modalInputField input.ansTxtbox",function(){
 				var inputFieldSelector = $(this).attr("data-mapinput");
-				var str = $(this).val().replace(/\s/g,' ').trim();
-				var str_clean = str.replace(/\s/g,'').trim();
+				var str = $(this).val().replace(/\s+/g,' ').trim();
+				var str_clean = str.replace(/\s+/g,'').trim();
 				var inputVal = (str_clean) ? str : '';
 				if( $('span.mobileField[data-rel="'+inputFieldSelector+'"]').length > 0 ) {
 					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').text(inputVal);

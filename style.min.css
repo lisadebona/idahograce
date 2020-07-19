@@ -1729,7 +1729,7 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 .wrapper{max-width:1200px;width:100%;margin:0 auto;padding-left:20px;padding-right:20px}
 #content{width:100%;float:left}
 .menu-toggle{display:none}
-.header-image{width:100%;height:230px;position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#eea568}
+.header-image{width:100%;height:150px;position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#eea568}
 @media(min-width:600px){.header-image{height:400px}
 }@media(min-width:900px){.header-image{height:500px}
 }.header-image:before{content:"";display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,0.35)}
@@ -1752,8 +1752,9 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 @media screen and (max-width:900px){.sermon-bottom-buttons .btn{display:block;max-width:260px;width:100%;margin:12px auto}
 .sermon-bottom-buttons .btn#resetBtn{position:absolute;bottom:-50px;left:50%;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}
 }.sermon-bottom-buttons .btn:hover{background:#f19b53;border-color:#f19b53}
-.sermon-posts{width:100%;float:left;padding-top:60px;padding-bottom:0;position:relative}
-.sermon-posts .sermonTitle{font-size:40px;font-weight:500;line-height:1.2;margin:0 0 20px;color:#eea568}
+.sermon-posts{width:100%;float:left;padding-top:30px;padding-bottom:0;position:relative}
+@media(min-width:600px){.sermon-posts{padding-top:60px}
+}.sermon-posts .sermonTitle{font-size:40px;font-weight:500;line-height:1.2;margin:0 0 20px;color:#eea568}
 .sermon-posts .pageTitle{color:#eea568;font-size:2em;font-weight:600;line-height:1.2;margin:0}
 .sermon-posts .sermonDate{font-size:18px;font-weight:bold}
 .sermon-posts .pageheader{margin-bottom:50px}
@@ -1770,9 +1771,14 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 .sermon-posts textarea.notes{font-family:"ProximaNova",sans-serif;font-size:20px;line-height:1.4;color:#000;width:100%;height:200px;padding:10px;outline:0;border-radius:5px;border:1px solid #333}
 .sermon-posts textarea.notes:focus{background-color:#fff;border-color:#eea568;outline:0;box-shadow:0 0 0 .2rem rgba(238,165,104,0.25)}
 .sermon-posts span.mobileField{display:none}
-@media screen and (max-width:900px){.sermon-posts input.notes-input{width:60px;display:none}
-.sermon-posts span.mobileField{display:inline-block;width:65px;height:22px;border-bottom:1px solid #000;position:relative;bottom:-3px}
+.sermon-posts ul,.sermon-posts ol{margin-bottom:30px}
+.sermon-posts ul li,.sermon-posts ol li{margin:15px 0}
+@media screen and (max-width:900px){.sermon-posts p{line-height:1.8;margin-bottom:28px}
+.sermon-posts input.notes-input{width:60px;display:none}
+.sermon-posts span.mobileField{display:inline-block;width:85px;height:22px;border-bottom:1px solid #000;position:relative;bottom:2px}
+.sermon-posts span.mobileField:before{content:"click here";display:block;font-size:12px;text-align:center;width:100%;color:#b5b4b4;position:absolute;bottom:-1px;left:0}
 .sermon-posts span.mobileField.auto-width{display:inline !important;width:auto !important;padding:0 3px;line-height:1.2;overflow-wrap:break-word}
+.sermon-posts span.mobileField.auto-width:before{display:none}
 }#sermonContainer .modal{z-index:-999}
 #sermonContainer .modal.show{z-index:9999}
 .btn-primary.gray{background-color:#757575;border-color:#757575}
@@ -1792,7 +1798,7 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 #modalInputField #modalInputBtn a#cancelInputBtn{background:#757575}
 #modalInputField.open{display:-webkit-box;display:-ms-flexbox;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 #modalInputField.open #modalInputWrap{-webkit-animation-name:fadeIn;animation-name:fadeIn}
-.addNotesDiv{margin-top:20px;margin-bottom:35px}
+.addNotesDiv{margin-top:35px;margin-bottom:35px}
 .addNotesDiv textarea{display:none;margin-top:10px}
 .addNotesDiv.open textarea{display:block}
 .addtlNotesBtn{display:inline-block;text-decoration:none;cursor:pointer;background:#e4812d;color:#FFF !important;padding:5px 15px;border-radius:4px;font-size:14px}

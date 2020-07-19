@@ -34,4 +34,6 @@ if(typeof params.sent!=='undefined') {
 		</div><!-- wrapper -->
 	</header><!-- #masthead -->
 
+	<?php get_template_part('parts/banner'); ?>
+
 	<div id="content" class="site-content">

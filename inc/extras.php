@@ -509,7 +509,8 @@ function email_sermon_notes($vars) {
                                 $note_txt = trim($notesTextarea[$k]);
                                 $noteVal = '<span class="multipleInput" style="display:block;border:1px dashed #a09f9f;background: #f3f3f3;padding:15px;border-radius:5px;margin-bottom:30px">' . nl2br($note_txt) . '</span>';
                             } else {
-                                $noteVal = '<br>______________________';
+                                //$noteVal = '<br>______________________';
+                                $noteVal = '<br>';
                             }
                         }
 
