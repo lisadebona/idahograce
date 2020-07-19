@@ -325,7 +325,7 @@ function download_sermon_notes($vars) {
         $content = get_sermon_content($post_id);
         $title = get_the_title($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
-        $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}</style>';
+        $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}ul li{margin:5px 0px}ol li{margin:2px 0px}</style>';
         $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.jpg" style="width:100px;height:auto"/></div>';
         $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">'.$siteName.'<br>Sermon Guide</h1><hr>';
         $text .= '<h2 style="font-size:25px;margin:25px 0 0;color:#e4812d">'.$title.'</h2>';
