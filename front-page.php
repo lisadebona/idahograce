@@ -226,7 +226,7 @@ get_header();  ?>
 	</main><!-- #main -->
 </div><!-- #primary -->
 
-<div id="modalInputField"><div id="modalInputWrap"><div id="modalInputTxt"><input type="text" class="ansTxtbox"></div><div id="modalInputBtn"><a id="cancelInputBtn">Cancel</a><a id="saveInputBtn">Save</a></div></div></div>
+<div id="modalInputField"><div id="modalInputWrap"><div id="modalInputTxt" data-currenttext=""><input type="text" class="ansTxtbox"></div><div id="modalInputBtn"><a id="cancelInputBtn">Cancel</a><a id="saveInputBtn">Save</a></div></div></div>
 
 <?php 
 get_footer();

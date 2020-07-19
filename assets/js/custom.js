@@ -277,25 +277,49 @@ jQuery(document).ready(function ($) {
 			$(document).on("click","span.mobileField",function(){
 				var inputField = $(this).attr('data-rel');
 				var inputVal = $(this).text();
+				var inputStr = inputVal.replace(/\s+/g,'').trim();
 				$(this).addClass('keying');
 				$("input.ansTxtbox").attr("data-mapinput",inputField);
 				$("#modalInputField").addClass("open");
-				if(inputVal) {
+				$("#modalInputField input.ansTxtbox").focus();
+				if(inputStr) {
+					$("#modalInputTxt").attr("data-currenttext",inputVal);
 					$("#modalInputField input.ansTxtbox").val(inputVal);
 				}
-				$("#modalInputField input.ansTxtbox").focus();
-				// var inputField = $(this).before();
-				// console.log(inputField).addClass("test");
-				
+			});
+
+			/* Show the answer in the textbox from the paragraph while keying in the input field */
+			$(document).on("keyup focusout","#modalInputField input.ansTxtbox",function(){
+				var inputFieldSelector = $(this).attr("data-mapinput");
+				var str = $(this).val().replace(/\s+/g,' ').trim();
+				var str_clean = str.replace(/\s+/g,'').trim();
+				var inputVal = (str_clean) ? str : '';
+				//var currentText = $("#modalInputTxt").attr("data-currenttext");
+				if( $('span.mobileField[data-rel="'+inputFieldSelector+'"]').length > 0 ) {
+					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').text(inputVal);
+					$("input"+inputFieldSelector).val(inputVal);
+					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').addClass("auto-width");
+					if(str_clean=='') {
+						$('span.mobileField[data-rel="'+inputFieldSelector+'"]').removeClass("auto-width");
+					}
+				}
 			});
 
 			$(document).on("click","#cancelInputBtn",function(e){
 				e.preventDefault();
 				$("#modalInputField").removeClass("open");
-				$("#modalInputField input.ansTxtbox").val("");
-				$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
-				$("span.mobileField.keying").removeClass("auto-width");
-				$("span.mobileField.keying").text("");
+				var currentVal = $("#modalInputField input.ansTxtbox").val().replace(/\s+/g,'').trim();
+				var currentInput = $("#modalInputField input.ansTxtbox").attr("data-mapinput");
+				var currentText = $("#modalInputTxt").attr("data-currenttext");
+				if(currentText) {
+					$("input"+currentInput).val(currentText);
+					$("input"+currentInput).next(".mobileField").text(currentText);
+				} else {
+					$("#modalInputField input.ansTxtbox").val("");
+					$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
+					$("span.mobileField.keying").removeClass("auto-width");
+					$("span.mobileField.keying").text("");
+				}
 			});
 
 			$(document).on("click","#saveInputBtn",function(e){
@@ -310,23 +334,6 @@ jQuery(document).ready(function ($) {
 				$("#modalInputField").removeClass("open");
 				$("#modalInputField input.ansTxtbox").val("");
 				$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
-			});
-
-			$(document).on("keyup focusout","#modalInputField input.ansTxtbox",function(){
-				var inputFieldSelector = $(this).attr("data-mapinput");
-				var str = $(this).val().replace(/\s+/g,' ').trim();
-				var str_clean = str.replace(/\s+/g,'').trim();
-				var inputVal = (str_clean) ? str : '';
-				if( $('span.mobileField[data-rel="'+inputFieldSelector+'"]').length > 0 ) {
-					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').text(inputVal);
-					$("input"+inputFieldSelector).val(inputVal);
-					$('span.mobileField[data-rel="'+inputFieldSelector+'"]').addClass("auto-width");
-					if(str_clean=='') {
-						$('span.mobileField[data-rel="'+inputFieldSelector+'"]').removeClass("auto-width");
-					}
-				}
-				
-
 			});
 
 		}
