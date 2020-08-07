@@ -1776,7 +1776,7 @@ a,input,textarea,button{-webkit-transition:all ease .3s;transition:all ease .3s}
 @media screen and (max-width:900px){.sermon-posts p{line-height:1.8;margin-bottom:28px}
 .sermon-posts input.notes-input{width:60px;display:none}
 .sermon-posts span.mobileField{display:inline-block;width:85px;height:22px;border-bottom:1px solid #000;position:relative;bottom:2px}
-.sermon-posts span.mobileField:before{content:"click here";display:block;font-size:12px;text-align:center;width:100%;color:#b5b4b4;position:absolute;bottom:-1px;left:0}
+.sermon-posts span.mobileField:before{content:"Tap Here";display:block;font-size:12px;text-align:center;width:100%;color:#b5b4b4;position:absolute;bottom:-1px;left:0}
 .sermon-posts span.mobileField.auto-width{display:inline !important;width:auto !important;padding:0 3px;line-height:1.2;overflow-wrap:break-word}
 .sermon-posts span.mobileField.auto-width:before{display:none}
 }#sermonContainer .modal{z-index:-999}

@@ -327,7 +327,7 @@ function download_sermon_notes($vars) {
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}ul li{margin:5px 0px}ol li{margin:2px 0px}</style>';
         $text .= '<div style="text-align:center;padding: 15px 0 5px;"><img src="idaho-grace.jpg" style="width:100px;height:auto"/></div>';
-        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">'.$siteName.'<br>Sermon Guide</h1><hr>';
+        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">Grace Bible Church<br>'.$siteName.'</h1><hr>';
         $text .= '<h2 style="font-size:25px;margin:25px 0 0;color:#e4812d">'.$title.'</h2>';
         $text .= '<p style="font-size:16px;margin:0 0 30px"><strong>'.$sermon_date.'</strong></p>';
 
@@ -427,21 +427,12 @@ function email_sermon_notes($vars) {
     $siteName = get_bloginfo("name");
     if($post && $user_email) {
         $title = $post->post_title;
-        // $pageContent = file_get_contents(get_site_url() . '?noheader=1');
-        // ob_start();
-        // echo $pageContent;
-        // $content = ob_get_contents();
-        // ob_end_clean();
         $content = get_sermon_content($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<table style="border:none;border-collapse:collapse;width:100%;"><tbody><tr><td style="background-color:#FBAE6D;padding:20px;">';
         $text  .= '<table style="border:none;border-collapse: collapse;background-color:#FFFFFF;font-family:Arial,Helvetica;font-size:16px;line-height:1.3;max-width:800px;width:100%;margin:20px auto"><tbody><tr><td style="padding:20px;background:#fff;">';
-        //$text .= '<p style="text-align:center;margin:0 0 10px"><img src="'.$logo.'" style="width:60px;height:auto"></p>';
         $text .= '<p style="text-align:center;margin:0 0 10px"><a href="https://www.idahograce.com/" target="_blank"><img src="https://idahogracesermon.com/idaho-grace.jpg" style="width:100px;height:auto"></a></p>';
-        //$text .= '<h1 align="center" style="font-size:20px;line-height: 1.2;margin:10px 0 5px">'.$siteName.'<br>Sermon Guide</h1>';
-        // $text .= '<p align="center" style="font-size:16px;margin:0 0 20px">'.$sermon_date.'</p><hr>';
-        // $text .= '<h2 style="font-size:25px;color:#f79e54">'.$title.'</h2>';
-        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">'.$siteName.'<br>Sermon Guide</h1><hr>';
+        $text .= '<h1 align="center" style="font-size:20px;margin:10px 0 25px">Grace Bible Church<br>'.$siteName.'</h1><hr>';
         $text .= '<h2 style="font-size:25px;margin:25px 0 0;color:#e4812d">'.$title.'</h2>';
         $text .= '<p style="font-size:16px;margin:0 0 30px"><strong>'.$sermon_date.'</strong></p>';
 

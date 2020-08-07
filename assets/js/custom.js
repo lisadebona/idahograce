@@ -285,6 +285,9 @@ jQuery(document).ready(function ($) {
 				if(inputStr) {
 					$("#modalInputTxt").attr("data-currenttext",inputVal);
 					$("#modalInputField input.ansTxtbox").val(inputVal);
+				} else {
+					$("#modalInputTxt").attr("data-currenttext","");
+					$("#modalInputField input.ansTxtbox").val("");
 				}
 			});
 
@@ -315,10 +318,11 @@ jQuery(document).ready(function ($) {
 					$("input"+currentInput).val(currentText);
 					$("input"+currentInput).next(".mobileField").text(currentText);
 				} else {
+					$("input"+currentInput).val("");
+					$("input"+currentInput).next(".mobileField").text("");
+					$('span[data-rel="'+currentInput+'"]').removeClass("keying auto-width").text("");
 					$("#modalInputField input.ansTxtbox").val("");
 					$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
-					$("span.mobileField.keying").removeClass("auto-width");
-					$("span.mobileField.keying").text("");
 				}
 			});
 
@@ -330,7 +334,7 @@ jQuery(document).ready(function ($) {
 				var id = inputField.replace("#","");
 				var cookieField = id + "_" + dateStr;
 				Cookies.set(cookieField,inputVal);
-
+				$(".mobileField").removeClass("keying");
 				$("#modalInputField").removeClass("open");
 				$("#modalInputField input.ansTxtbox").val("");
 				$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
