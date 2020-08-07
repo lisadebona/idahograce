@@ -124,6 +124,11 @@ get_header();  ?>
 				$actual_content = '';
 				$i=1; while ( have_posts() ) : the_post();
 					//$noteForm = note_form_markup(); 
+
+					$v = get_field("scriptures");
+					$verses = ( isset($v['verses']) && $v['verses'] ) ? $v['verses'] : '';
+					$scripture = ( isset($v['text']) && $v['text'] ) ? $v['text'] : '';
+
 					ob_start();
 					the_content();
 					$content = ob_get_contents();
@@ -143,6 +148,9 @@ get_header();  ?>
 						<h1 class="pageTitle"><?php the_title(); ?></h1>
 						<?php if ($sermon_date) { ?>
 						<div class="sermonDate"><?php echo $sermon_date ?></div>
+						<?php } ?>
+						<?php if ($verses) { ?>
+						<div class="verses"><i>Text: <span id="verse-info" class="verselink <?php echo ($scripture) ? 'has-scripture':'' ?>"><?php echo $verses ?></span></i></div>
 						<?php } ?>
 					</div>
 					<div class="entry-content"><?php echo $content ?></div>
@@ -174,7 +182,12 @@ get_header();  ?>
 			<div class="notesContainer"></div>
 		</form>
 		</div>
-		
+
+		<?php if ($scripture) { ?>
+		<div id="verseData" style="display:none;">
+			<div class="scripture-content"><?php echo $scripture ?></div>
+		</div>
+		<?php } ?>
 		
 		<!-- Modal -->
 		<div class="modal fade" id="emailNotesFrm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
