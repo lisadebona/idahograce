@@ -533,7 +533,7 @@ function email_sermon_notes($vars) {
         } 
 
         $email_body .= '</td></tr></tbody></table></td></tr></tbody></table>';
-        $subject = $siteName . 'Sermon Guide - ' . $title;
+        $subject = $siteName . ' (' . $title . ')';
         $to = $user_email;
         add_filter( 'wp_mail_content_type', create_function( '', 'return "text/html";' ) );
         $is_sent = wp_mail( $to,$subject,$email_body);
