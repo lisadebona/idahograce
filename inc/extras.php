@@ -322,7 +322,14 @@ function download_sermon_notes($vars) {
     $siteName = get_bloginfo("name");
     if($post) {
 
-        $content = get_sermon_content($post_id);
+        $v = get_field("scriptures",$post_id);
+        $verses = ( isset($v['verses']) && $v['verses'] ) ? $v['verses'] : '';
+        $content = '';
+        if($verses) {
+            $content .= '<p><strong><i>Text: '.$verses.'</i></strong></p><br>';
+        }
+
+        $content .= get_sermon_content($post_id);
         $title = get_the_title($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<style>body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;}ul li{margin:5px 0px}ol li{margin:2px 0px}</style>';
@@ -425,9 +432,17 @@ function email_sermon_notes($vars) {
     $siteURL = get_site_url();
     $logo = get_bloginfo("template_url") . "/images/logo.png";
     $siteName = get_bloginfo("name");
+    $content = '';
     if($post && $user_email) {
         $title = $post->post_title;
-        $content = get_sermon_content($post_id);
+
+        $v = get_field("scriptures",$post_id);
+        $verses = ( isset($v['verses']) && $v['verses'] ) ? $v['verses'] : '';
+        $content = '';
+        if($verses) {
+            $content .= '<p><strong><i>Text: '.$verses.'</i></strong></p><br>';
+        }
+        $content .= get_sermon_content($post_id);
         $sermon_date = get_field("sermon_date",$post_id);
         $text = '<table style="border:none;border-collapse:collapse;width:100%;"><tbody><tr><td style="background-color:#FBAE6D;padding:20px;">';
         $text  .= '<table style="border:none;border-collapse: collapse;background-color:#FFFFFF;font-family:Arial,Helvetica;font-size:16px;line-height:1.3;max-width:800px;width:100%;margin:20px auto"><tbody><tr><td style="padding:20px;background:#fff;">';

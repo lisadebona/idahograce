@@ -244,6 +244,15 @@ a,input,textarea,button {
 	.pageheader {
 		margin-bottom: 50px;
 	}
+	.verses {
+		margin-top: 15px;
+	}
+	.verselink.has-scripture {
+		cursor: pointer;
+		display: inline-block;
+		color: blue;
+		text-decoration: underline;
+	}
 	.sermon-note-wrap {
 		position: relative;
 		margin-bottom: 40px;
@@ -362,6 +371,7 @@ a,input,textarea,button {
 				bottom: -1px;
 				left: 0;
     		}
+    		&.keying,
     		&.auto-width {
     			display: inline!important;
     			width: auto!important;
@@ -381,6 +391,18 @@ a,input,textarea,button {
 		&.show {
 			z-index: 9999;
 		}
+	}
+}
+body .jconfirm .jconfirm-box .jconfirm-closeIcon {
+	background: #FFF!important;
+    color: #e85c07!important;
+    font-size: 30px !important;
+}
+.scripture-content {
+	font-size: 1.2em;
+	line-height: 1.5;
+	p {
+		margin-bottom: 1.5em;
 	}
 }
 .btn-primary.gray {

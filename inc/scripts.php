@@ -3,7 +3,8 @@
  * Enqueue scripts and styles.
  */
 function idahograce_scripts() {
-	wp_enqueue_style( 'idahograce-style', get_stylesheet_uri() );
+	//wp_enqueue_style( 'idahograce-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'idahograce-style', get_template_directory_uri() . '/style.min.css', array(), '2.0', 'all' );
 
 	wp_deregister_script('jquery');
 		wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js', false, '3.4.1', false);
@@ -14,7 +15,7 @@ function idahograce_scripts() {
 	wp_enqueue_script( 
 			'idahograce-blocks', 
 			get_template_directory_uri() . '/assets/js/vendors.js', 
-			array(), '20120206', 
+			array(), date('Ymd'), 
 			true 
 		);
 
@@ -26,9 +27,16 @@ function idahograce_scripts() {
 		);
 
 	wp_enqueue_script( 
+			'idahograce-jconfirm', 
+			get_template_directory_uri() . '/assets/js/jquery-confirm.min.js', 
+			array(), '3.3.4', 
+			true 
+		);
+
+	wp_enqueue_script( 
 			'idahograce-custom', 
 			get_template_directory_uri() . '/assets/js/custom.js', 
-			array(), '20120206', 
+			array(), date('Ymd'), 
 			true 
 		);
 

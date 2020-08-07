@@ -158,7 +158,15 @@ jQuery(document).ready(function ($) {
 		var message = '';
 		if(email1 && email2) {
 			if( isValidEmailAddress(email1) ) {
+				$.dialog({
+					columnClass: 'col-md-4 col-md-offset-4',
+					containerFluid: true,
+					theme:'material',
+				    title: 'Sending...',
+				    content: '<span style="font-size:20px;">Please wait. Do not close your web browser.</span>',
+				});
 				$("#notesForm").submit();
+				$("#emailNotesFrm").hide();
 			} else {
 				message = '<div class="msg">Please enter a valid email address.</div>';
 				
@@ -167,6 +175,7 @@ jQuery(document).ready(function ($) {
 			message = '<div class="msg">Please enter a valid email address.</div>';
 		}
 		$("#respond").html(message);
+
 	});
 
 	$(document).on("click",".closeModal",function(e){
@@ -317,10 +326,12 @@ jQuery(document).ready(function ($) {
 				if(currentText) {
 					$("input"+currentInput).val(currentText);
 					$("input"+currentInput).next(".mobileField").text(currentText);
+					//$('span[data-rel="'+currentInput+'"]').addClass("auto-width");
 				} else {
 					$("input"+currentInput).val("");
 					$("input"+currentInput).next(".mobileField").text("");
-					$('span[data-rel="'+currentInput+'"]').removeClass("keying auto-width").text("");
+					$('span[data-rel="'+currentInput+'"]').removeClass("keying auto-width");
+					$('span[data-rel="'+currentInput+'"]').text("");
 					$("#modalInputField input.ansTxtbox").val("");
 					$("#modalInputField input.ansTxtbox").attr("data-mapinput","");
 				}
@@ -360,6 +371,21 @@ jQuery(document).ready(function ($) {
 	    return pattern.test(emailAddress);
 	}
 
+
+	/* popup scripture */
+	$(".verselink.has-scripture").on("click", function(e){
+		e.preventDefault();
+		var content = $("#verseData").html();
+		var title = $(this).text();
+		$.dialog({
+			columnClass: 'col-md-8 col-md-offset-4',
+			containerFluid: true,
+			backgroundDismiss: true,
+		    title: "",
+		    content: content,
+		    theme:'material'
+		});
+	});
 
 
 });// END #####################################    END
